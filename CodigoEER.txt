@@ -1,0 +1,2138 @@
+CREATE TABLE CLIENTES(
+);
+CREATE TABLE INTERNET(
+Servidor VARCHAR2(128) NOT NULL
+);
+
+CREATE TABLE PERSONAL(
+);
+CREATE TABLE ASOCIADOS(
+Codigo_de_Asociado NUMBER NOT NULL
+);
+
+CREATE TABLE NO_ASOCIADOS(
+);
+CREATE TABLE PERSONA(
+DNI NUMBER NOT NULL,
+Nombre VARCHAR2(128) NOT NULL,
+Dirección VARCHAR2(128) NOT NULL
+);
+
+CREATE TABLE POR_EMPRESA(
+Nombre_de_Empresa VARCHAR2(128) NOT NULL
+);
+
+CREATE TABLE ACCIONISTAS(
+Código_de_Accionista NUMBER NOT NULL
+);
+
+CREATE TABLE HABITACIONES(
+Código NUMBER NOT NULL,
+disponivilidad VARCHAR2(128) NOT NULL
+);
+
+CREATE TABLE NORMAL_SIMPLE(
+);
+CREATE TABLE NORMAL_3_ESTRELLAS(
+);
+CREATE TABLE NORMAL_2_ESTRELLAS(
+);
+CREATE TABLE NORMAL(
+);
+CREATE TABLE LUJO(
+);
+CREATE TABLE INDIVIDUAL(
+);
+CREATE TABLE COMPARTIDA(
+);
+CREATE TABLE FAMILIA(
+);
+CREATE TABLE PISO(
+NroPISO NUMBER NOT NULL
+);
+
+CREATE TABLE SERVICIOO_DE_HABITACIÓN(
+NombreDEquipo NUMBER NOT NULL,
+disponibilidad VARCHAR2(128) NOT NULL
+);
+
+CREATE TABLE DEDICADO(
+);
+CREATE TABLE COMUN(
+);
+CREATE TABLE EMPLEADOS(
+);
+CREATE TABLE SERVICIOS_ADICIONALES(
+Nombre NUMBER NOT NULL,
+costo_de_servicio VARCHAR2(128) NOT NULL
+);
+
+CREATE TABLE SECCIONES(
+nombre VARCHAR2(128) NOT NULL,
+Código NUMBER NOT NULL
+);
+
+CREATE TABLE HOTEL(
+Código NUMBER NOT NULL,
+Nombre VARCHAR2(128) NOT NULL,
+Dirección VARCHAR2(128) NOT NULL,
+Categoría VARCHAR2(128) NOT NULL
+);
+
+CREATE TABLE ÁREAS(
+Código NUMBER NOT NULL,
+Aforo VARCHAR2(128) NOT NULL
+);
+
+CREATE TABLE PATIOS_DE_COMIDA(
+Tipo VARCHAR2(128) NOT NULL
+);
+
+CREATE TABLE ENTRETENIMIENTO(
+);
+CREATE TABLE PISCINAS(
+Profundidad VARCHAR2(128) NOT NULL
+);
+
+CREATE TABLE DEPORTIVO(
+Disciplina VARCHAR2(128) NOT NULL
+);
+
+CREATE TABLE VIRTUAL(
+Género VARCHAR2(128) NOT NULL
+);
+
+CREATE TABLE RESERVA(
+F_Inicio VARCHAR2(128) NOT NULL,
+F_Fin VARCHAR2(128) NOT NULL
+);
+
+
+ALTER TABLE ASOCIADOS ADD CONSTRAINT PK_ASOCIADOS PRIMARY KEY (Codigo_de_Asociado);
+
+ALTER TABLE PERSONA ADD CONSTRAINT PK_PERSONA PRIMARY KEY (DNI);
+
+ALTER TABLE ACCIONISTAS ADD CONSTRAINT PK_ACCIONISTAS PRIMARY KEY (Código_de_Accionista);
+
+ALTER TABLE HABITACIONES ADD CONSTRAINT PK_HABITACIONES PRIMARY KEY (Código);
+
+ALTER TABLE PISO ADD CONSTRAINT PK_PISO PRIMARY KEY (NroPISO);
+
+ALTER TABLE SERVICIOO_DE_HABITACIÓN ADD CONSTRAINT PK_SERVICIOO_DE_HABITACIÓN PRIMARY KEY (NombreDEquipo);
+
+ALTER TABLE SERVICIOS_ADICIONALES ADD CONSTRAINT PK_SERVICIOS_ADICIONALES PRIMARY KEY (Nombre);
+
+ALTER TABLE SECCIONES ADD CONSTRAINT PK_SECCIONES PRIMARY KEY (Código);
+
+ALTER TABLE HOTEL ADD CONSTRAINT PK_HOTEL PRIMARY KEY (Código);
+
+ALTER TABLE ÁREAS ADD CONSTRAINT PK_ÁREAS PRIMARY KEY (Código);
+ALTER TABLE INTERNET ADD _  NOT NULL;
+ALTER TABLE INTERNET ADD CONSTRAINT FK_INTERNET FOREIGN KEY (_) REFERENCES  () ON DELETE CASCADE;
+ALTER TABLE INTERNET ADD CONSTRAINT PK_INTERNET PRIMARY KEY (_) REFERENCES  ();
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ AFTER INSERT OR DELETE OR UPDATE ON 
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; 
+BEGIN
+	IF INSTERTING THEN
+		SELECT COUNT(*) INTO X0 FROM INTERNET c WHERE c._ = :n.;
+		IF(X0 < 1) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_INTERNET AFTER INSERT OR DELETE OR UPDATE ON INTERNET
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; 
+BEGIN
+	IF INSERTING THEN
+		IF( != 0) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM  c WHERE c. = :o._;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20001, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n._ != :o._) THEN
+			SELECT COUNT(*) INTO X0 FROM  c WHERE c. = :o._;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20002, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+ALTER TABLE ASOCIADOS ADD _  NOT NULL;
+ALTER TABLE ASOCIADOS ADD CONSTRAINT FK_ASOCIADOS FOREIGN KEY (_) REFERENCES  () ON DELETE CASCADE;
+ALTER TABLE ASOCIADOS ADD CONSTRAINT PK_ASOCIADOS PRIMARY KEY (_) REFERENCES  ();
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ AFTER INSERT OR DELETE OR UPDATE ON 
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; 
+BEGIN
+	IF INSTERTING THEN
+		SELECT COUNT(*) INTO X0 FROM INTERNET c WHERE c._ = :n.;
+		SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c._ = :n.;
+		IF(X0 + X1 < 1) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_INTERNET AFTER INSERT OR DELETE OR UPDATE ON INTERNET
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c._ = :n._;
+		IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM  c WHERE c. = :o._;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20001, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n._ != :o._) THEN
+			SELECT COUNT(*) INTO X0 FROM  c WHERE c. = :o._;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20002, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c._ = :n._;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20003, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ASOCIADOS AFTER INSERT OR DELETE OR UPDATE ON ASOCIADOS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c._ = :n._;
+		IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20004, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM  c WHERE c. = :o._;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20005, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n._ != :o._) THEN
+			SELECT COUNT(*) INTO X0 FROM  c WHERE c. = :o._;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20006, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c._ = :n._;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20007, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+ALTER TABLE EMPLEADOS ADD DNI_persona NUMBER NOT NULL;
+ALTER TABLE EMPLEADOS ADD CONSTRAINT FK_EMPLEADOS FOREIGN KEY (DNI_persona) REFERENCES PERSONA (DNI) ON DELETE CASCADE;
+ALTER TABLE EMPLEADOS ADD CONSTRAINT PK_EMPLEADOS PRIMARY KEY (DNI_persona) REFERENCES PERSONA (DNI);
+
+CREATE OR REPLACE TRIGGER genspecTrigger_PERSONA AFTER INSERT OR DELETE OR UPDATE ON PERSONA
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; 
+BEGIN
+	IF INSTERTING THEN
+		SELECT COUNT(*) INTO X0 FROM INTERNET c WHERE c.DNI_persona = :n.DNI;
+		SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.DNI_persona = :n.DNI;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.DNI_persona = :n.DNI;
+		IF(X0 + X1 + X2 < 1) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_INTERNET AFTER INSERT OR DELETE OR UPDATE ON INTERNET
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.DNI_persona = :n.DNI_persona;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.DNI_persona = :n.DNI_persona;
+		IF(X1 + X2 != 0) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM PERSONA c WHERE c.DNI = :o.DNI_persona;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20001, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.DNI_persona != :o.DNI_persona) THEN
+			SELECT COUNT(*) INTO X0 FROM PERSONA c WHERE c.DNI = :o.DNI_persona;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20002, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.DNI_persona = :n.DNI_persona;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20003, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.DNI_persona = :n.DNI_persona;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20004, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ASOCIADOS AFTER INSERT OR DELETE OR UPDATE ON ASOCIADOS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.DNI_persona = :n.DNI_persona;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.DNI_persona = :n.DNI_persona;
+		IF(X1 + X2 != 0) THEN RAISE_APPLICATION_ERROR(-20005, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM PERSONA c WHERE c.DNI = :o.DNI_persona;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20006, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.DNI_persona != :o.DNI_persona) THEN
+			SELECT COUNT(*) INTO X0 FROM PERSONA c WHERE c.DNI = :o.DNI_persona;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20007, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.DNI_persona = :n.DNI_persona;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20008, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.DNI_persona = :n.DNI_persona;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20009, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_EMPLEADOS AFTER INSERT OR DELETE OR UPDATE ON EMPLEADOS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.DNI_persona = :n.DNI_persona;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.DNI_persona = :n.DNI_persona;
+		IF(X1 + X2 != 0) THEN RAISE_APPLICATION_ERROR(-20010, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM PERSONA c WHERE c.DNI = :o.DNI_persona;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20011, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.DNI_persona != :o.DNI_persona) THEN
+			SELECT COUNT(*) INTO X0 FROM PERSONA c WHERE c.DNI = :o.DNI_persona;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20012, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.DNI_persona = :n.DNI_persona;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20013, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.DNI_persona = :n.DNI_persona;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20014, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+ALTER TABLE POR_EMPRESA ADD Codigo_de_Asociado_asociados NUMBER NOT NULL;
+ALTER TABLE POR_EMPRESA ADD CONSTRAINT FK_POR_EMPRESA FOREIGN KEY (Codigo_de_Asociado_asociados) REFERENCES ASOCIADOS (Codigo_de_Asociado) ON DELETE CASCADE;
+ALTER TABLE POR_EMPRESA ADD CONSTRAINT PK_POR_EMPRESA PRIMARY KEY (Codigo_de_Asociado_asociados) REFERENCES ASOCIADOS (Codigo_de_Asociado);
+ALTER TABLE ACCIONISTAS ADD Codigo_de_Asociado_asociados NUMBER NOT NULL;
+ALTER TABLE ACCIONISTAS ADD CONSTRAINT FK_ACCIONISTAS FOREIGN KEY (Codigo_de_Asociado_asociados) REFERENCES ASOCIADOS (Codigo_de_Asociado) ON DELETE CASCADE;
+ALTER TABLE ACCIONISTAS ADD CONSTRAINT PK_ACCIONISTAS PRIMARY KEY (Codigo_de_Asociado_asociados) REFERENCES ASOCIADOS (Codigo_de_Asociado);
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ASOCIADOS AFTER INSERT OR DELETE OR UPDATE ON ASOCIADOS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSTERTING THEN
+		SELECT COUNT(*) INTO X0 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado;
+		SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado;
+		IF(X0 + X1 + X2 + X3 + X4 < 1) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_INTERNET AFTER INSERT OR DELETE OR UPDATE ON INTERNET
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20001, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20002, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20003, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20004, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20005, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20006, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ASOCIADOS AFTER INSERT OR DELETE OR UPDATE ON ASOCIADOS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20007, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20008, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20009, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20010, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20011, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20012, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20013, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_EMPLEADOS AFTER INSERT OR DELETE OR UPDATE ON EMPLEADOS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20014, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20015, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20016, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20017, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20018, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20019, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20020, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_POR_EMPRESA AFTER INSERT OR DELETE OR UPDATE ON POR_EMPRESA
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20021, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20022, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20023, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20024, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20025, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20026, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20027, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ACCIONISTAS AFTER INSERT OR DELETE OR UPDATE ON ACCIONISTAS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20028, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20029, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20030, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20031, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20032, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20033, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20034, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_HABITACIONES AFTER INSERT OR DELETE OR UPDATE ON HABITACIONES
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSTERTING THEN
+		SELECT COUNT(*) INTO X0 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Código;
+		SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Código;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Código;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Código;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Código;
+		IF(X0 + X1 + X2 + X3 + X4 < 1) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_INTERNET AFTER INSERT OR DELETE OR UPDATE ON INTERNET
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20001, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20002, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20003, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20004, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20005, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20006, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ASOCIADOS AFTER INSERT OR DELETE OR UPDATE ON ASOCIADOS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20007, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20008, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20009, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20010, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20011, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20012, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20013, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_EMPLEADOS AFTER INSERT OR DELETE OR UPDATE ON EMPLEADOS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20014, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20015, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20016, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20017, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20018, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20019, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20020, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_POR_EMPRESA AFTER INSERT OR DELETE OR UPDATE ON POR_EMPRESA
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20021, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20022, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20023, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20024, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20025, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20026, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20027, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ACCIONISTAS AFTER INSERT OR DELETE OR UPDATE ON ACCIONISTAS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20028, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20029, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20030, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20031, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20032, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20033, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20034, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_HABITACIONES AFTER INSERT OR DELETE OR UPDATE ON HABITACIONES
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSTERTING THEN
+		SELECT COUNT(*) INTO X0 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Código;
+		SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Código;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Código;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Código;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Código;
+		IF(X0 + X1 + X2 + X3 + X4 < 1) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_INTERNET AFTER INSERT OR DELETE OR UPDATE ON INTERNET
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20001, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20002, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20003, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20004, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20005, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20006, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ASOCIADOS AFTER INSERT OR DELETE OR UPDATE ON ASOCIADOS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20007, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20008, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20009, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20010, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20011, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20012, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20013, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_EMPLEADOS AFTER INSERT OR DELETE OR UPDATE ON EMPLEADOS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20014, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20015, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20016, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20017, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20018, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20019, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20020, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_POR_EMPRESA AFTER INSERT OR DELETE OR UPDATE ON POR_EMPRESA
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20021, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20022, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20023, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20024, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20025, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20026, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20027, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ACCIONISTAS AFTER INSERT OR DELETE OR UPDATE ON ACCIONISTAS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20028, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20029, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20030, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20031, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20032, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20033, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20034, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_HABITACIONES AFTER INSERT OR DELETE OR UPDATE ON HABITACIONES
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSTERTING THEN
+		SELECT COUNT(*) INTO X0 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Código;
+		SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Código;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Código;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Código;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Código;
+		IF(X0 + X1 + X2 + X3 + X4 < 1) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_INTERNET AFTER INSERT OR DELETE OR UPDATE ON INTERNET
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20001, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20002, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20003, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20004, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20005, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20006, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ASOCIADOS AFTER INSERT OR DELETE OR UPDATE ON ASOCIADOS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20007, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20008, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20009, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20010, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20011, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20012, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20013, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_EMPLEADOS AFTER INSERT OR DELETE OR UPDATE ON EMPLEADOS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20014, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20015, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20016, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20017, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20018, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20019, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20020, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_POR_EMPRESA AFTER INSERT OR DELETE OR UPDATE ON POR_EMPRESA
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20021, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20022, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20023, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20024, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20025, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20026, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20027, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ACCIONISTAS AFTER INSERT OR DELETE OR UPDATE ON ACCIONISTAS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20028, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20029, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM HABITACIONES c WHERE c.Código = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20030, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20031, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20032, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20033, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20034, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_SERVICIOO_DE_HABITACIÓN AFTER INSERT OR DELETE OR UPDATE ON SERVICIOO_DE_HABITACIÓN
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSTERTING THEN
+		SELECT COUNT(*) INTO X0 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.NombreDEquipo;
+		SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.NombreDEquipo;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.NombreDEquipo;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.NombreDEquipo;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.NombreDEquipo;
+		IF(X0 + X1 + X2 + X3 + X4 < 1) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_INTERNET AFTER INSERT OR DELETE OR UPDATE ON INTERNET
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM SERVICIOO_DE_HABITACIÓN c WHERE c.NombreDEquipo = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20001, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM SERVICIOO_DE_HABITACIÓN c WHERE c.NombreDEquipo = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20002, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20003, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20004, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20005, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20006, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ASOCIADOS AFTER INSERT OR DELETE OR UPDATE ON ASOCIADOS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20007, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM SERVICIOO_DE_HABITACIÓN c WHERE c.NombreDEquipo = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20008, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM SERVICIOO_DE_HABITACIÓN c WHERE c.NombreDEquipo = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20009, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20010, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20011, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20012, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20013, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_EMPLEADOS AFTER INSERT OR DELETE OR UPDATE ON EMPLEADOS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20014, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM SERVICIOO_DE_HABITACIÓN c WHERE c.NombreDEquipo = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20015, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM SERVICIOO_DE_HABITACIÓN c WHERE c.NombreDEquipo = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20016, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20017, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20018, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20019, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20020, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_POR_EMPRESA AFTER INSERT OR DELETE OR UPDATE ON POR_EMPRESA
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20021, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM SERVICIOO_DE_HABITACIÓN c WHERE c.NombreDEquipo = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20022, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM SERVICIOO_DE_HABITACIÓN c WHERE c.NombreDEquipo = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20023, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20024, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20025, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20026, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20027, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ACCIONISTAS AFTER INSERT OR DELETE OR UPDATE ON ACCIONISTAS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+		IF(X1 + X2 + X3 + X4 != 0) THEN RAISE_APPLICATION_ERROR(-20028, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM SERVICIOO_DE_HABITACIÓN c WHERE c.NombreDEquipo = :o.Codigo_de_Asociado_asociados;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20029, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Codigo_de_Asociado_asociados != :o.Codigo_de_Asociado_asociados) THEN
+			SELECT COUNT(*) INTO X0 FROM SERVICIOO_DE_HABITACIÓN c WHERE c.NombreDEquipo = :o.Codigo_de_Asociado_asociados;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20030, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20031, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20032, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20033, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Codigo_de_Asociado_asociados = :n.Codigo_de_Asociado_asociados;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20034, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+ALTER TABLE PISCINAS ADD Código_áreas NUMBER NOT NULL;
+ALTER TABLE PISCINAS ADD CONSTRAINT FK_PISCINAS FOREIGN KEY (Código_áreas) REFERENCES ÁREAS (Código) ON DELETE CASCADE;
+ALTER TABLE PISCINAS ADD CONSTRAINT PK_PISCINAS PRIMARY KEY (Código_áreas) REFERENCES ÁREAS (Código);
+ALTER TABLE PATIOS_DE_COMIDA ADD Código_áreas NUMBER NOT NULL;
+ALTER TABLE PATIOS_DE_COMIDA ADD CONSTRAINT FK_PATIOS_DE_COMIDA FOREIGN KEY (Código_áreas) REFERENCES ÁREAS (Código) ON DELETE CASCADE;
+ALTER TABLE PATIOS_DE_COMIDA ADD CONSTRAINT PK_PATIOS_DE_COMIDA PRIMARY KEY (Código_áreas) REFERENCES ÁREAS (Código);
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ÁREAS AFTER INSERT OR DELETE OR UPDATE ON ÁREAS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; X5 number; X6 number; 
+BEGIN
+	IF INSTERTING THEN
+		SELECT COUNT(*) INTO X0 FROM INTERNET c WHERE c.Código_áreas = :n.Código;
+		SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código;
+		SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código;
+		SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código;
+		IF(X0 + X1 + X2 + X3 + X4 + X5 + X6 < 1) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_INTERNET AFTER INSERT OR DELETE OR UPDATE ON INTERNET
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; X5 number; X6 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+		IF(X1 + X2 + X3 + X4 + X5 + X6 != 0) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20001, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Código_áreas != :o.Código_áreas) THEN
+			SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20002, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20003, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20004, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20005, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20006, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X5 != 0) THEN RAISE_APPLICATION_ERROR(-20007, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X6 != 0) THEN RAISE_APPLICATION_ERROR(-20008, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ASOCIADOS AFTER INSERT OR DELETE OR UPDATE ON ASOCIADOS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; X5 number; X6 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+		IF(X1 + X2 + X3 + X4 + X5 + X6 != 0) THEN RAISE_APPLICATION_ERROR(-20009, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20010, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Código_áreas != :o.Código_áreas) THEN
+			SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20011, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20012, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20013, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20014, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20015, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X5 != 0) THEN RAISE_APPLICATION_ERROR(-20016, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X6 != 0) THEN RAISE_APPLICATION_ERROR(-20017, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_EMPLEADOS AFTER INSERT OR DELETE OR UPDATE ON EMPLEADOS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; X5 number; X6 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+		IF(X1 + X2 + X3 + X4 + X5 + X6 != 0) THEN RAISE_APPLICATION_ERROR(-20018, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20019, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Código_áreas != :o.Código_áreas) THEN
+			SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20020, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20021, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20022, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20023, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20024, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X5 != 0) THEN RAISE_APPLICATION_ERROR(-20025, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X6 != 0) THEN RAISE_APPLICATION_ERROR(-20026, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_POR_EMPRESA AFTER INSERT OR DELETE OR UPDATE ON POR_EMPRESA
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; X5 number; X6 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+		IF(X1 + X2 + X3 + X4 + X5 + X6 != 0) THEN RAISE_APPLICATION_ERROR(-20027, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20028, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Código_áreas != :o.Código_áreas) THEN
+			SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20029, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20030, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20031, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20032, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20033, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X5 != 0) THEN RAISE_APPLICATION_ERROR(-20034, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X6 != 0) THEN RAISE_APPLICATION_ERROR(-20035, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ACCIONISTAS AFTER INSERT OR DELETE OR UPDATE ON ACCIONISTAS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; X5 number; X6 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+		IF(X1 + X2 + X3 + X4 + X5 + X6 != 0) THEN RAISE_APPLICATION_ERROR(-20036, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20037, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Código_áreas != :o.Código_áreas) THEN
+			SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20038, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20039, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20040, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20041, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20042, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X5 != 0) THEN RAISE_APPLICATION_ERROR(-20043, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X6 != 0) THEN RAISE_APPLICATION_ERROR(-20044, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_PISCINAS AFTER INSERT OR DELETE OR UPDATE ON PISCINAS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; X5 number; X6 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X5 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+		IF(X1 + X2 + X3 + X4 + X5 + X6 != 0) THEN RAISE_APPLICATION_ERROR(-20045, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20046, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Código_áreas != :o.Código_áreas) THEN
+			SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20047, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20048, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20049, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20050, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20051, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X5 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X5 != 0) THEN RAISE_APPLICATION_ERROR(-20052, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X6 != 0) THEN RAISE_APPLICATION_ERROR(-20053, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_PATIOS_DE_COMIDA AFTER INSERT OR DELETE OR UPDATE ON PATIOS_DE_COMIDA
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; X5 number; X6 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X5 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X6 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+		IF(X1 + X2 + X3 + X4 + X5 + X6 != 0) THEN RAISE_APPLICATION_ERROR(-20054, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20055, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Código_áreas != :o.Código_áreas) THEN
+			SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20056, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20057, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20058, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20059, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20060, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X5 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X5 != 0) THEN RAISE_APPLICATION_ERROR(-20061, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X6 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X6 != 0) THEN RAISE_APPLICATION_ERROR(-20062, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+ALTER TABLE DEPORTIVO ADD Código_áreas NUMBER NOT NULL;
+ALTER TABLE DEPORTIVO ADD CONSTRAINT FK_DEPORTIVO FOREIGN KEY (Código_áreas) REFERENCES ÁREAS (Código) ON DELETE CASCADE;
+ALTER TABLE DEPORTIVO ADD CONSTRAINT PK_DEPORTIVO PRIMARY KEY (Código_áreas) REFERENCES ÁREAS (Código);
+ALTER TABLE VIRTUAL ADD Código_áreas NUMBER NOT NULL;
+ALTER TABLE VIRTUAL ADD CONSTRAINT FK_VIRTUAL FOREIGN KEY (Código_áreas) REFERENCES ÁREAS (Código) ON DELETE CASCADE;
+ALTER TABLE VIRTUAL ADD CONSTRAINT PK_VIRTUAL PRIMARY KEY (Código_áreas) REFERENCES ÁREAS (Código);
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ÁREAS AFTER INSERT OR DELETE OR UPDATE ON ÁREAS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; X5 number; X6 number; X7 number; X8 number; 
+BEGIN
+	IF INSTERTING THEN
+		SELECT COUNT(*) INTO X0 FROM INTERNET c WHERE c.Código_áreas = :n.Código;
+		SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código;
+		SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código;
+		SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código;
+		SELECT COUNT(*) INTO X7 FROM DEPORTIVO c WHERE c.Código_áreas = :n.Código;
+		SELECT COUNT(*) INTO X8 FROM VIRTUAL c WHERE c.Código_áreas = :n.Código;
+		IF(X0 + X1 + X2 + X3 + X4 + X5 + X6 + X7 + X8 < 1) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_INTERNET AFTER INSERT OR DELETE OR UPDATE ON INTERNET
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; X5 number; X6 number; X7 number; X8 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X7 FROM DEPORTIVO c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X8 FROM VIRTUAL c WHERE c.Código_áreas = :n.Código_áreas;
+		IF(X1 + X2 + X3 + X4 + X5 + X6 + X7 + X8 != 0) THEN RAISE_APPLICATION_ERROR(-20000, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20001, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Código_áreas != :o.Código_áreas) THEN
+			SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20002, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20003, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20004, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20005, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20006, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X5 != 0) THEN RAISE_APPLICATION_ERROR(-20007, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X6 != 0) THEN RAISE_APPLICATION_ERROR(-20008, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X7 FROM DEPORTIVO c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X7 != 0) THEN RAISE_APPLICATION_ERROR(-20009, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X8 FROM VIRTUAL c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X8 != 0) THEN RAISE_APPLICATION_ERROR(-20010, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ASOCIADOS AFTER INSERT OR DELETE OR UPDATE ON ASOCIADOS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; X5 number; X6 number; X7 number; X8 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X7 FROM DEPORTIVO c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X8 FROM VIRTUAL c WHERE c.Código_áreas = :n.Código_áreas;
+		IF(X1 + X2 + X3 + X4 + X5 + X6 + X7 + X8 != 0) THEN RAISE_APPLICATION_ERROR(-20011, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20012, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Código_áreas != :o.Código_áreas) THEN
+			SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20013, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20014, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20015, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20016, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20017, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X5 != 0) THEN RAISE_APPLICATION_ERROR(-20018, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X6 != 0) THEN RAISE_APPLICATION_ERROR(-20019, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X7 FROM DEPORTIVO c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X7 != 0) THEN RAISE_APPLICATION_ERROR(-20020, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X8 FROM VIRTUAL c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X8 != 0) THEN RAISE_APPLICATION_ERROR(-20021, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_EMPLEADOS AFTER INSERT OR DELETE OR UPDATE ON EMPLEADOS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; X5 number; X6 number; X7 number; X8 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X7 FROM DEPORTIVO c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X8 FROM VIRTUAL c WHERE c.Código_áreas = :n.Código_áreas;
+		IF(X1 + X2 + X3 + X4 + X5 + X6 + X7 + X8 != 0) THEN RAISE_APPLICATION_ERROR(-20022, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20023, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Código_áreas != :o.Código_áreas) THEN
+			SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20024, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20025, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20026, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20027, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20028, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X5 != 0) THEN RAISE_APPLICATION_ERROR(-20029, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X6 != 0) THEN RAISE_APPLICATION_ERROR(-20030, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X7 FROM DEPORTIVO c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X7 != 0) THEN RAISE_APPLICATION_ERROR(-20031, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X8 FROM VIRTUAL c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X8 != 0) THEN RAISE_APPLICATION_ERROR(-20032, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_POR_EMPRESA AFTER INSERT OR DELETE OR UPDATE ON POR_EMPRESA
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; X5 number; X6 number; X7 number; X8 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X7 FROM DEPORTIVO c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X8 FROM VIRTUAL c WHERE c.Código_áreas = :n.Código_áreas;
+		IF(X1 + X2 + X3 + X4 + X5 + X6 + X7 + X8 != 0) THEN RAISE_APPLICATION_ERROR(-20033, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20034, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Código_áreas != :o.Código_áreas) THEN
+			SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20035, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20036, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20037, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20038, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20039, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X5 != 0) THEN RAISE_APPLICATION_ERROR(-20040, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X6 != 0) THEN RAISE_APPLICATION_ERROR(-20041, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X7 FROM DEPORTIVO c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X7 != 0) THEN RAISE_APPLICATION_ERROR(-20042, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X8 FROM VIRTUAL c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X8 != 0) THEN RAISE_APPLICATION_ERROR(-20043, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_ACCIONISTAS AFTER INSERT OR DELETE OR UPDATE ON ACCIONISTAS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; X5 number; X6 number; X7 number; X8 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X7 FROM DEPORTIVO c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X8 FROM VIRTUAL c WHERE c.Código_áreas = :n.Código_áreas;
+		IF(X1 + X2 + X3 + X4 + X5 + X6 + X7 + X8 != 0) THEN RAISE_APPLICATION_ERROR(-20044, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20045, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Código_áreas != :o.Código_áreas) THEN
+			SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20046, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20047, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20048, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20049, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20050, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X5 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X5 != 0) THEN RAISE_APPLICATION_ERROR(-20051, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X6 != 0) THEN RAISE_APPLICATION_ERROR(-20052, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X7 FROM DEPORTIVO c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X7 != 0) THEN RAISE_APPLICATION_ERROR(-20053, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X8 FROM VIRTUAL c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X8 != 0) THEN RAISE_APPLICATION_ERROR(-20054, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_PISCINAS AFTER INSERT OR DELETE OR UPDATE ON PISCINAS
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; X5 number; X6 number; X7 number; X8 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X5 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X7 FROM DEPORTIVO c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X8 FROM VIRTUAL c WHERE c.Código_áreas = :n.Código_áreas;
+		IF(X1 + X2 + X3 + X4 + X5 + X6 + X7 + X8 != 0) THEN RAISE_APPLICATION_ERROR(-20055, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20056, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Código_áreas != :o.Código_áreas) THEN
+			SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20057, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20058, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20059, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20060, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20061, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X5 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X5 != 0) THEN RAISE_APPLICATION_ERROR(-20062, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X6 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X6 != 0) THEN RAISE_APPLICATION_ERROR(-20063, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X7 FROM DEPORTIVO c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X7 != 0) THEN RAISE_APPLICATION_ERROR(-20064, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X8 FROM VIRTUAL c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X8 != 0) THEN RAISE_APPLICATION_ERROR(-20065, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_PATIOS_DE_COMIDA AFTER INSERT OR DELETE OR UPDATE ON PATIOS_DE_COMIDA
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; X5 number; X6 number; X7 number; X8 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X5 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X6 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X7 FROM DEPORTIVO c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X8 FROM VIRTUAL c WHERE c.Código_áreas = :n.Código_áreas;
+		IF(X1 + X2 + X3 + X4 + X5 + X6 + X7 + X8 != 0) THEN RAISE_APPLICATION_ERROR(-20066, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20067, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Código_áreas != :o.Código_áreas) THEN
+			SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20068, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20069, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20070, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20071, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20072, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X5 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X5 != 0) THEN RAISE_APPLICATION_ERROR(-20073, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X6 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X6 != 0) THEN RAISE_APPLICATION_ERROR(-20074, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X7 FROM DEPORTIVO c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X7 != 0) THEN RAISE_APPLICATION_ERROR(-20075, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X8 FROM VIRTUAL c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X8 != 0) THEN RAISE_APPLICATION_ERROR(-20076, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_DEPORTIVO AFTER INSERT OR DELETE OR UPDATE ON DEPORTIVO
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; X5 number; X6 number; X7 number; X8 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X5 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X6 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X7 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X8 FROM VIRTUAL c WHERE c.Código_áreas = :n.Código_áreas;
+		IF(X1 + X2 + X3 + X4 + X5 + X6 + X7 + X8 != 0) THEN RAISE_APPLICATION_ERROR(-20077, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20078, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Código_áreas != :o.Código_áreas) THEN
+			SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20079, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20080, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20081, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20082, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20083, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X5 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X5 != 0) THEN RAISE_APPLICATION_ERROR(-20084, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X6 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X6 != 0) THEN RAISE_APPLICATION_ERROR(-20085, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X7 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X7 != 0) THEN RAISE_APPLICATION_ERROR(-20086, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X8 FROM VIRTUAL c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X8 != 0) THEN RAISE_APPLICATION_ERROR(-20087, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER genspecTrigger_VIRTUAL AFTER INSERT OR DELETE OR UPDATE ON VIRTUAL
+REFERENCING NEW AS n OLD as o FOR EACH ROW
+DECLARE X0 number; X1 number; X2 number; X3 number; X4 number; X5 number; X6 number; X7 number; X8 number; 
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X5 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X6 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X7 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+		SELECT COUNT(*) INTO X8 FROM DEPORTIVO c WHERE c.Código_áreas = :n.Código_áreas;
+		IF(X1 + X2 + X3 + X4 + X5 + X6 + X7 + X8 != 0) THEN RAISE_APPLICATION_ERROR(-20088, 'Violação detectada!'); END IF;
+	END IF;
+	IF DELETING THEN
+		SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+		IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20089, 'Violação detectada!'); END IF;
+	END IF;
+	IF UPDATING THEN
+		IF(:n.Código_áreas != :o.Código_áreas) THEN
+			SELECT COUNT(*) INTO X0 FROM ÁREAS c WHERE c.Código = :o.Código_áreas;
+			IF(X0 != 0) THEN RAISE_APPLICATION_ERROR(-20090, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X1 FROM INTERNET c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X1 != 0) THEN RAISE_APPLICATION_ERROR(-20091, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X2 FROM ASOCIADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X2 != 0) THEN RAISE_APPLICATION_ERROR(-20092, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X3 FROM EMPLEADOS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X3 != 0) THEN RAISE_APPLICATION_ERROR(-20093, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X4 FROM POR_EMPRESA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X4 != 0) THEN RAISE_APPLICATION_ERROR(-20094, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X5 FROM ACCIONISTAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X5 != 0) THEN RAISE_APPLICATION_ERROR(-20095, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X6 FROM PISCINAS c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X6 != 0) THEN RAISE_APPLICATION_ERROR(-20096, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X7 FROM PATIOS_DE_COMIDA c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X7 != 0) THEN RAISE_APPLICATION_ERROR(-20097, 'Violação detectada!'); END IF;
+			SELECT COUNT(*) INTO X8 FROM DEPORTIVO c WHERE c.Código_áreas = :n.Código_áreas;
+			IF(X8 != 0) THEN RAISE_APPLICATION_ERROR(-20098, 'Violação detectada!'); END IF;
+		END IF;
+	END IF
+END;
+
+CREATE TABLE SECCIONES_HABITACIONES(
+	Código_secciones NUMBER NOT NULL,
+	Código_habitaciones NUMBER NOT NULL
+);
+
+ALTER TABLE SECCIONES_HABITACIONES ADD CONSTRAINT FK_SECCIONES_HABITACIONES FOREING KEY (Código_secciones) REFERENCES SECCIONES (Código);
+
+ALTER TABLE SECCIONES_HABITACIONES ADD CONSTRAINT FK2_SECCIONES_HABITACIONES FOREING KEY (Código_habitaciones) REFERENCES HABITACIONES (Código);
+
+ALTER TABLE SECCIONES_HABITACIONES ADD CONSTRAINT PK_SECCIONES_HABITACIONES PRIMARY KEY (Código_secciones, Código_habitaciones);
+
+ALTER TABLE HABITACIONES ADD NroPISO_piso NUMBER NOT NULL;
+
+ALTER TABLE HABITACIONES ADD CONSTRAINT FK_HABITACIONES FOREING KEY (NroPISO_piso) REFERENCES PISO (NroPISO) INITIALLY DEFERRED DEFERREABLE;
+
+CREATE OR REPLACE TRIGGER relTrigger_PISO AFTER INSERT OR DELETE OR UPDATE ON PISO
+REFERENCING NEW AS n OLD AS o FOR EACH ROW
+DECLARE X number;
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT (*) INTO X FROM HABITACIONES c WHERE c.NroPISO_piso = :n.NroPISO_piso;
+		IF (X = 0) THEN RAISE_APPLICATION_ERROR(-20000, 'Violacao detectada!'); END IF;
+	ELSEIF UPDATING THEN
+		IF(:n.NroPISO_piso != :o.NroPISO_piso) THEN
+			SELECT COUNT (*) INTO X FROM HABITACIONES c WHERE c.NroPISO_piso = :o.NroPISO_piso;
+			IF (X != 0) THEN RAISE_APPLICATION_ERROR(-20001, 'Violacao detectada!'); END IF;
+			SELECT COUNT (*) INTO X FROM HABITACIONES c WHERE c.NroPISO_piso = :n.NroPISO_piso;
+			IF (X = 0) THEN RAISE_APPLICATION_ERROR(-20002, 'Violacao detectada!'); END IF;
+		END IF;
+	ELSEIF DELETING THEN
+			SELECT COUNT (*) INTO X FROM HABITACIONES c WHERE c.NroPISO_piso = :o.NroPISO_piso;
+		IF (X != 0) THEN RAISE_APPLICATION_ERROR(-20003, 'Violacao detectada!'); END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER relTrigger_HABITACIONES AFTER INSERT OR DELETE OR UPDATE ON HABITACIONES
+REFERENCING NEW AS n OLD AS o FOR EACH ROW
+DECLARE Y number; PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+	IF DELETING THEN
+		SELECT COUNT (*) INTO Y FROM HABITACIONES c WHERE c.NroPISO_piso = :o.NroPISO_piso;
+		IF (Y != 0) THEN RAISE_APPLICATION_ERROR(-20004, 'Violacao detectada!'); END IF;
+	ELSEIF UPDATING THEN
+		IF(:o.NroPISO_piso != :n.NroPISO_piso) THEN
+			SELECT COUNT (*) INTO Y FROM HABITACIONES c WHERE c.NroPISO_piso = :o.NroPISO_piso;
+			IF (Y != 0) THEN RAISE_APPLICATION_ERROR(-20005, 'Violacao detectada!'); END IF;
+		END IF;
+	END IF;
+END;
+ALTER TABLE HABITACIONES ADD NroPISO_piso NUMBER NOT NULL;
+
+ALTER TABLE HABITACIONES ADD CONSTRAINT FK_HABITACIONES FOREING KEY (NroPISO_piso) REFERENCES PISO (NroPISO) INITIALLY DEFERRED DEFERREABLE;
+
+CREATE OR REPLACE TRIGGER relTrigger_PISO AFTER INSERT OR DELETE OR UPDATE ON PISO
+REFERENCING NEW AS n OLD AS o FOR EACH ROW
+DECLARE X number;
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT (*) INTO X FROM HABITACIONES c WHERE c.NroPISO_piso = :n.NroPISO_piso;
+		IF (X = 0) THEN RAISE_APPLICATION_ERROR(-20000, 'Violacao detectada!'); END IF;
+	ELSEIF UPDATING THEN
+		IF(:n.NroPISO_piso != :o.NroPISO_piso) THEN
+			SELECT COUNT (*) INTO X FROM HABITACIONES c WHERE c.NroPISO_piso = :o.NroPISO_piso;
+			IF (X != 0) THEN RAISE_APPLICATION_ERROR(-20001, 'Violacao detectada!'); END IF;
+			SELECT COUNT (*) INTO X FROM HABITACIONES c WHERE c.NroPISO_piso = :n.NroPISO_piso;
+			IF (X = 0) THEN RAISE_APPLICATION_ERROR(-20002, 'Violacao detectada!'); END IF;
+		END IF;
+	ELSEIF DELETING THEN
+			SELECT COUNT (*) INTO X FROM HABITACIONES c WHERE c.NroPISO_piso = :o.NroPISO_piso;
+		IF (X != 0) THEN RAISE_APPLICATION_ERROR(-20003, 'Violacao detectada!'); END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER relTrigger_HABITACIONES AFTER INSERT OR DELETE OR UPDATE ON HABITACIONES
+REFERENCING NEW AS n OLD AS o FOR EACH ROW
+DECLARE Y number; PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+	IF DELETING THEN
+		SELECT COUNT (*) INTO Y FROM HABITACIONES c WHERE c.NroPISO_piso = :o.NroPISO_piso;
+		IF (Y != 0) THEN RAISE_APPLICATION_ERROR(-20004, 'Violacao detectada!'); END IF;
+	ELSEIF UPDATING THEN
+		IF(:o.NroPISO_piso != :n.NroPISO_piso) THEN
+			SELECT COUNT (*) INTO Y FROM HABITACIONES c WHERE c.NroPISO_piso = :o.NroPISO_piso;
+			IF (Y != 0) THEN RAISE_APPLICATION_ERROR(-20005, 'Violacao detectada!'); END IF;
+		END IF;
+	END IF;
+END;
+CREATE TABLE PISO_HABITACIONES(
+	NroPISO_piso NUMBER NOT NULL,
+	Código_habitaciones NUMBER NOT NULL
+);
+
+ALTER TABLE PISO_HABITACIONES ADD CONSTRAINT FK_PISO_HABITACIONES FOREING KEY (NroPISO_piso) REFERENCES PISO (NroPISO);
+
+ALTER TABLE PISO_HABITACIONES ADD CONSTRAINT FK2_PISO_HABITACIONES FOREING KEY (Código_habitaciones) REFERENCES HABITACIONES (Código);
+
+ALTER TABLE PISO_HABITACIONES ADD CONSTRAINT PK_PISO_HABITACIONES PRIMARY KEY (NroPISO_piso, Código_habitaciones);
+
+ALTER TABLE EMPLEADOS ADD NombreDEquipo_servicioo_de_habitación NUMBER NOT NULL;
+
+ALTER TABLE EMPLEADOS ADD CONSTRAINT FK_EMPLEADOS FOREING KEY (NombreDEquipo_servicioo_de_habitación) REFERENCES SERVICIOO_DE_HABITACIÓN (NombreDEquipo) INITIALLY DEFERRED DEFERREABLE;
+
+CREATE OR REPLACE TRIGGER relTrigger_SERVICIOO_DE_HABITACIÓN AFTER INSERT OR DELETE OR UPDATE ON SERVICIOO_DE_HABITACIÓN
+REFERENCING NEW AS n OLD AS o FOR EACH ROW
+DECLARE X number;
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT (*) INTO X FROM EMPLEADOS c WHERE c.NombreDEquipo_servicioo_de_habitación = :n.NombreDEquipo_servicioo_de_habitación;
+		IF (X = 0) THEN RAISE_APPLICATION_ERROR(-20000, 'Violacao detectada!'); END IF;
+	ELSEIF UPDATING THEN
+		IF(:n.NombreDEquipo_servicioo_de_habitación != :o.NombreDEquipo_servicioo_de_habitación) THEN
+			SELECT COUNT (*) INTO X FROM EMPLEADOS c WHERE c.NombreDEquipo_servicioo_de_habitación = :o.NombreDEquipo_servicioo_de_habitación;
+			IF (X != 0) THEN RAISE_APPLICATION_ERROR(-20001, 'Violacao detectada!'); END IF;
+			SELECT COUNT (*) INTO X FROM EMPLEADOS c WHERE c.NombreDEquipo_servicioo_de_habitación = :n.NombreDEquipo_servicioo_de_habitación;
+			IF (X = 0) THEN RAISE_APPLICATION_ERROR(-20002, 'Violacao detectada!'); END IF;
+		END IF;
+	ELSEIF DELETING THEN
+			SELECT COUNT (*) INTO X FROM EMPLEADOS c WHERE c.NombreDEquipo_servicioo_de_habitación = :o.NombreDEquipo_servicioo_de_habitación;
+		IF (X != 0) THEN RAISE_APPLICATION_ERROR(-20003, 'Violacao detectada!'); END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER relTrigger_EMPLEADOS AFTER INSERT OR DELETE OR UPDATE ON EMPLEADOS
+REFERENCING NEW AS n OLD AS o FOR EACH ROW
+DECLARE Y number; PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+	IF DELETING THEN
+		SELECT COUNT (*) INTO Y FROM EMPLEADOS c WHERE c.NombreDEquipo_servicioo_de_habitación = :o.NombreDEquipo_servicioo_de_habitación;
+		IF (Y != 0) THEN RAISE_APPLICATION_ERROR(-20004, 'Violacao detectada!'); END IF;
+	ELSEIF UPDATING THEN
+		IF(:o.NombreDEquipo_servicioo_de_habitación != :n.NombreDEquipo_servicioo_de_habitación) THEN
+			SELECT COUNT (*) INTO Y FROM EMPLEADOS c WHERE c.NombreDEquipo_servicioo_de_habitación = :o.NombreDEquipo_servicioo_de_habitación;
+			IF (Y != 0) THEN RAISE_APPLICATION_ERROR(-20005, 'Violacao detectada!'); END IF;
+		END IF;
+	END IF;
+END;
+CREATE TABLE HABITACIONES_SERVICIOS_ADICIONALES(
+	Código_habitaciones NUMBER NOT NULL,
+	Nombre_servicios_adicionales NUMBER NOT NULL
+);
+
+ALTER TABLE HABITACIONES_SERVICIOS_ADICIONALES ADD CONSTRAINT FK_HABITACIONES_SERVICIOS_ADICIONALES FOREING KEY (Código_habitaciones) REFERENCES HABITACIONES (Código);
+
+ALTER TABLE HABITACIONES_SERVICIOS_ADICIONALES ADD CONSTRAINT FK2_HABITACIONES_SERVICIOS_ADICIONALES FOREING KEY (Nombre_servicios_adicionales) REFERENCES SERVICIOS_ADICIONALES (Nombre);
+
+ALTER TABLE HABITACIONES_SERVICIOS_ADICIONALES ADD CONSTRAINT PK_HABITACIONES_SERVICIOS_ADICIONALES PRIMARY KEY (Código_habitaciones, Nombre_servicios_adicionales);
+
+ALTER TABLE HABITACIONES ADD Código_hotel NUMBER NOT NULL;
+
+ALTER TABLE HABITACIONES ADD CONSTRAINT FK_HABITACIONES FOREING KEY (Código_hotel) REFERENCES HOTEL (Código) INITIALLY DEFERRED DEFERREABLE;
+
+CREATE OR REPLACE TRIGGER relTrigger_HOTEL AFTER INSERT OR DELETE OR UPDATE ON HOTEL
+REFERENCING NEW AS n OLD AS o FOR EACH ROW
+DECLARE X number;
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT (*) INTO X FROM HABITACIONES c WHERE c.Código_hotel = :n.Código_hotel;
+		IF (X = 0) THEN RAISE_APPLICATION_ERROR(-20000, 'Violacao detectada!'); END IF;
+	ELSEIF UPDATING THEN
+		IF(:n.Código_hotel != :o.Código_hotel) THEN
+			SELECT COUNT (*) INTO X FROM HABITACIONES c WHERE c.Código_hotel = :o.Código_hotel;
+			IF (X != 0) THEN RAISE_APPLICATION_ERROR(-20001, 'Violacao detectada!'); END IF;
+			SELECT COUNT (*) INTO X FROM HABITACIONES c WHERE c.Código_hotel = :n.Código_hotel;
+			IF (X = 0) THEN RAISE_APPLICATION_ERROR(-20002, 'Violacao detectada!'); END IF;
+		END IF;
+	ELSEIF DELETING THEN
+			SELECT COUNT (*) INTO X FROM HABITACIONES c WHERE c.Código_hotel = :o.Código_hotel;
+		IF (X != 0) THEN RAISE_APPLICATION_ERROR(-20003, 'Violacao detectada!'); END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER relTrigger_HABITACIONES AFTER INSERT OR DELETE OR UPDATE ON HABITACIONES
+REFERENCING NEW AS n OLD AS o FOR EACH ROW
+DECLARE Y number; PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+	IF DELETING THEN
+		SELECT COUNT (*) INTO Y FROM HABITACIONES c WHERE c.Código_hotel = :o.Código_hotel;
+		IF (Y != 0) THEN RAISE_APPLICATION_ERROR(-20004, 'Violacao detectada!'); END IF;
+	ELSEIF UPDATING THEN
+		IF(:o.Código_hotel != :n.Código_hotel) THEN
+			SELECT COUNT (*) INTO Y FROM HABITACIONES c WHERE c.Código_hotel = :o.Código_hotel;
+			IF (Y != 0) THEN RAISE_APPLICATION_ERROR(-20005, 'Violacao detectada!'); END IF;
+		END IF;
+	END IF;
+END;
+ALTER TABLE ÁREAS ADD Código_hotel NUMBER NOT NULL;
+
+ALTER TABLE ÁREAS ADD CONSTRAINT FK_ÁREAS FOREING KEY (Código_hotel) REFERENCES HOTEL (Código) INITIALLY DEFERRED DEFERREABLE;
+
+CREATE OR REPLACE TRIGGER relTrigger_HOTEL AFTER INSERT OR DELETE OR UPDATE ON HOTEL
+REFERENCING NEW AS n OLD AS o FOR EACH ROW
+DECLARE X number;
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT (*) INTO X FROM ÁREAS c WHERE c.Código_hotel = :n.Código_hotel;
+		IF (X = 0) THEN RAISE_APPLICATION_ERROR(-20000, 'Violacao detectada!'); END IF;
+	ELSEIF UPDATING THEN
+		IF(:n.Código_hotel != :o.Código_hotel) THEN
+			SELECT COUNT (*) INTO X FROM ÁREAS c WHERE c.Código_hotel = :o.Código_hotel;
+			IF (X != 0) THEN RAISE_APPLICATION_ERROR(-20001, 'Violacao detectada!'); END IF;
+			SELECT COUNT (*) INTO X FROM ÁREAS c WHERE c.Código_hotel = :n.Código_hotel;
+			IF (X = 0) THEN RAISE_APPLICATION_ERROR(-20002, 'Violacao detectada!'); END IF;
+		END IF;
+	ELSEIF DELETING THEN
+			SELECT COUNT (*) INTO X FROM ÁREAS c WHERE c.Código_hotel = :o.Código_hotel;
+		IF (X != 0) THEN RAISE_APPLICATION_ERROR(-20003, 'Violacao detectada!'); END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER relTrigger_ÁREAS AFTER INSERT OR DELETE OR UPDATE ON ÁREAS
+REFERENCING NEW AS n OLD AS o FOR EACH ROW
+DECLARE Y number; PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+	IF DELETING THEN
+		SELECT COUNT (*) INTO Y FROM ÁREAS c WHERE c.Código_hotel = :o.Código_hotel;
+		IF (Y != 0) THEN RAISE_APPLICATION_ERROR(-20004, 'Violacao detectada!'); END IF;
+	ELSEIF UPDATING THEN
+		IF(:o.Código_hotel != :n.Código_hotel) THEN
+			SELECT COUNT (*) INTO Y FROM ÁREAS c WHERE c.Código_hotel = :o.Código_hotel;
+			IF (Y != 0) THEN RAISE_APPLICATION_ERROR(-20005, 'Violacao detectada!'); END IF;
+		END IF;
+	END IF;
+END;
+ALTER TABLE PISO ADD Código_hotel NUMBER NOT NULL;
+
+ALTER TABLE PISO ADD CONSTRAINT FK_PISO FOREING KEY (Código_hotel) REFERENCES HOTEL (Código) INITIALLY DEFERRED DEFERREABLE;
+
+CREATE OR REPLACE TRIGGER relTrigger_HOTEL AFTER INSERT OR DELETE OR UPDATE ON HOTEL
+REFERENCING NEW AS n OLD AS o FOR EACH ROW
+DECLARE X number;
+BEGIN
+	IF INSERTING THEN
+		SELECT COUNT (*) INTO X FROM PISO c WHERE c.Código_hotel = :n.Código_hotel;
+		IF (X = 0) THEN RAISE_APPLICATION_ERROR(-20000, 'Violacao detectada!'); END IF;
+	ELSEIF UPDATING THEN
+		IF(:n.Código_hotel != :o.Código_hotel) THEN
+			SELECT COUNT (*) INTO X FROM PISO c WHERE c.Código_hotel = :o.Código_hotel;
+			IF (X != 0) THEN RAISE_APPLICATION_ERROR(-20001, 'Violacao detectada!'); END IF;
+			SELECT COUNT (*) INTO X FROM PISO c WHERE c.Código_hotel = :n.Código_hotel;
+			IF (X = 0) THEN RAISE_APPLICATION_ERROR(-20002, 'Violacao detectada!'); END IF;
+		END IF;
+	ELSEIF DELETING THEN
+			SELECT COUNT (*) INTO X FROM PISO c WHERE c.Código_hotel = :o.Código_hotel;
+		IF (X != 0) THEN RAISE_APPLICATION_ERROR(-20003, 'Violacao detectada!'); END IF;
+	END IF
+END;
+
+CREATE OR REPLACE TRIGGER relTrigger_PISO AFTER INSERT OR DELETE OR UPDATE ON PISO
+REFERENCING NEW AS n OLD AS o FOR EACH ROW
+DECLARE Y number; PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+	IF DELETING THEN
+		SELECT COUNT (*) INTO Y FROM PISO c WHERE c.Código_hotel = :o.Código_hotel;
+		IF (Y != 0) THEN RAISE_APPLICATION_ERROR(-20004, 'Violacao detectada!'); END IF;
+	ELSEIF UPDATING THEN
+		IF(:o.Código_hotel != :n.Código_hotel) THEN
+			SELECT COUNT (*) INTO Y FROM PISO c WHERE c.Código_hotel = :o.Código_hotel;
+			IF (Y != 0) THEN RAISE_APPLICATION_ERROR(-20005, 'Violacao detectada!'); END IF;
+		END IF;
+	END IF;
+END;
+CREATE TABLE PERSONA_TELÉFONO(
+	DNI NUMBER NOT NULL,
+	pk-teléfono NUMBER NOT NULL,
+	teléfono VARCHAR2(128) NOT NULL
+);
+
+ALTER TABLE PERSONA_TELÉFONO ADD CONSTRAINT PK_PERSONA_TELÉFONO PRIMARY KEY (pk-teléfono);
+ALTER TABLE PERSONA_TELÉFONO ADD CONSTRAINT FK_PERSONA_TELÉFONO FOREIGN KEY (DNI) REFERENCES PERSONA (DNI);
+
+CREATE TABLE HOTEL_TELEFONO(
+	Código NUMBER NOT NULL,
+	pk-telefono NUMBER NOT NULL,
+	telefono VARCHAR2(128) NOT NULL
+);
+
+ALTER TABLE HOTEL_TELEFONO ADD CONSTRAINT PK_HOTEL_TELEFONO PRIMARY KEY (pk-telefono);
+ALTER TABLE HOTEL_TELEFONO ADD CONSTRAINT FK_HOTEL_TELEFONO FOREIGN KEY (Código) REFERENCES HOTEL (Código);
+
+CREATE OR REPLACE VIEW VW_EMPLEADOS AS (
+null
+);
+CREATE OR REPLACE VIEW VW_ÁREAS AS (
+null
+);

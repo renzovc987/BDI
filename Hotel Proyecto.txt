@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- SQL XML created by WWW SQL Designer, https://github.com/ondras/wwwsqldesigner/ -->
+<!-- Active URL: http://ondras.zarovi.cz/sql/demo/?keyword=default -->
+<sql>
+<datatypes db="mysql">
+	<group label="Numeric" color="rgb(238,238,170)">
+		<type label="Integer" length="0" sql="INTEGER" quote=""/>
+	 	<type label="TINYINT" length="0" sql="TINYINT" quote=""/>
+	 	<type label="SMALLINT" length="0" sql="SMALLINT" quote=""/>
+	 	<type label="MEDIUMINT" length="0" sql="MEDIUMINT" quote=""/>
+	 	<type label="INT" length="0" sql="INT" quote=""/>
+		<type label="BIGINT" length="0" sql="BIGINT" quote=""/>
+		<type label="Decimal" length="1" sql="DECIMAL" re="DEC" quote=""/>
+		<type label="Single precision" length="0" sql="FLOAT" quote=""/>
+		<type label="Double precision" length="0" sql="DOUBLE" re="DOUBLE" quote=""/>
+	</group>
+
+	<group label="Character" color="rgb(255,200,200)">
+		<type label="Char" length="1" sql="CHAR" quote="'"/>
+		<type label="Varchar" length="1" sql="VARCHAR" quote="'"/>
+		<type label="Text" length="0" sql="MEDIUMTEXT" re="TEXT" quote="'"/>
+		<type label="Binary" length="1" sql="BINARY" quote="'"/>
+		<type label="Varbinary" length="1" sql="VARBINARY" quote="'"/>
+		<type label="BLOB" length="0" sql="BLOB" re="BLOB" quote="'"/>
+	</group>
+
+	<group label="Date &amp; Time" color="rgb(200,255,200)">
+		<type label="Date" length="0" sql="DATE" quote="'"/>
+		<type label="Time" length="0" sql="TIME" quote="'"/>
+		<type label="Datetime" length="0" sql="DATETIME" quote="'"/>
+		<type label="Year" length="0" sql="YEAR" quote=""/>
+		<type label="Timestamp" length="0" sql="TIMESTAMP" quote="'"/>
+	</group>
+	
+	<group label="Miscellaneous" color="rgb(200,200,255)">
+		<type label="ENUM" length="1" sql="ENUM" quote=""/>
+		<type label="SET" length="1" sql="SET" quote=""/>
+		<type label="Bit" length="0" sql="bit" quote=""/>
+	</group>
+</datatypes><table x="707" y="74" name="Hotel">
+<row name="Código_Hotel" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Contacto_Hotel" row="Código_Hotel" />
+</row>
+<row name="Dirección" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="Categoria" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="Nombre" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>Código_Hotel</part>
+</key>
+</table>
+<table x="685" y="382" name="Habitaciones">
+<row name="Código_Habitacion" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="N_Piso" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Piso" row="N_Piso" />
+</row>
+<key type="PRIMARY" name="">
+<part>Código_Habitacion</part>
+</key>
+</table>
+<table x="1044" y="464" name="Servicio_Adicional">
+<row name="Nombre" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Ofrece" row="Nombre_Servicio" />
+</row>
+<row name="Costo" null="1" autoincrement="0">
+<datatype>DECIMAL</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>Nombre</part>
+</key>
+</table>
+<table x="1030" y="319" name="Ofrece">
+<row name="Código_Habitacion" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Habitaciones" row="Código_Habitacion" />
+</row>
+<row name="Nombre_Servicio" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>Código_Habitacion</part>
+<part>Nombre_Servicio</part>
+</key>
+</table>
+<table x="451" y="208" name="Secciones">
+<row name="Código_Sección" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="Código_Habitación" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="Nombre" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>Código_Sección</part>
+</key>
+</table>
+<table x="422" y="385" name="Familiar">
+<row name="Código_Habitación" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Habitaciones" row="Código_Habitacion" />
+</row>
+<key type="PRIMARY" name="">
+<part>Código_Habitación</part>
+</key>
+</table>
+<table x="1005" y="802" name="Compartida">
+<row name="Código_Habitación" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Habitaciones" row="Código_Habitacion" />
+</row>
+<key type="PRIMARY" name="">
+<part>Código_Habitación</part>
+</key>
+</table>
+<table x="993" y="646" name="Individual">
+<row name="Código_Habitación" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Habitaciones" row="Código_Habitacion" />
+</row>
+<key type="PRIMARY" name="">
+<part>Código_Habitación</part>
+</key>
+</table>
+<table x="20" y="707" name="Normal">
+<row name="Código_Habitación" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Habitaciones" row="Código_Habitacion" />
+<relation table="Normal_3_Estrellas" row="Código_Habitación" />
+<relation table="Atención" row="Código_Habitación" />
+</row>
+<row name="Nombre_Servicio" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>Código_Habitación</part>
+</key>
+</table>
+<table x="268" y="794" name="Lujo">
+<row name="Código_Habitación" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Habitaciones" row="Código_Habitacion" />
+</row>
+<row name="Nombre_Servicio" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default><relation table="Dedicado" row="Nombre_Servicio" />
+</row>
+<key type="PRIMARY" name="">
+<part>Código_Habitación</part>
+</key>
+</table>
+<table x="951" y="940" name="Persona">
+<row name="DNI" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Empleado" row="DNI_Empleado" />
+</row>
+<row name="Nombres" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="Apellidos" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="Dirección" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>DNI</part>
+</key>
+</table>
+<table x="804" y="825" name="Contacto">
+<row name="Teléfono" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="DNI" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Persona" row="DNI" />
+</row>
+<key type="PRIMARY" name="">
+<part>Teléfono</part>
+<part>DNI</part>
+</key>
+</table>
+<table x="640" y="1038" name="Clientes">
+<row name="DNI_Cliente" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Persona" row="DNI" />
+<relation table="Asociados" row="DNI_Cliente" />
+<relation table="No Asociados" row="DNI_Cliente" />
+<relation table="Reserva" row="DNI_Cliente" />
+</row>
+<key type="PRIMARY" name="">
+<part>DNI_Cliente</part>
+</key>
+</table>
+<table x="914" y="1202" name="Empleado">
+<row name="DNI_Empleado" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Servicio_Habitación" row="DNI_Empleado" />
+</row>
+<key type="PRIMARY" name="">
+<part>DNI_Empleado</part>
+</key>
+</table>
+<table x="61" y="1298" name="Servicio_Habitación">
+<row name="DNI_Empleado" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="Disponibilidad" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="Nombre_Servicio" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>DNI_Empleado</part>
+<part>Nombre_Servicio</part>
+</key>
+</table>
+<table x="70" y="1169" name="Dedicado">
+<row name="Nombre_Servicio" null="1" autoincrement="1">
+<datatype>VARCHAR</datatype>
+<default>NULL</default><relation table="Servicio_Habitación" row="Nombre_Servicio" />
+</row>
+<key type="PRIMARY" name="">
+<part>Nombre_Servicio</part>
+</key>
+</table>
+<table x="21" y="1084" name="Común">
+<row name="Nombre_Servicio" null="1" autoincrement="1">
+<datatype>VARCHAR</datatype>
+<default>NULL</default><relation table="Servicio_Habitación" row="Nombre_Servicio" />
+<relation table="Atención" row="Nombre_Servicio" />
+</row>
+<key type="PRIMARY" name="">
+<part>Nombre_Servicio</part>
+</key>
+</table>
+<table x="449" y="1033" name="Asociados">
+<row name="DNI_Cliente" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="Código_Asociado" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>DNI_Cliente</part>
+<part>Código_Asociado</part>
+</key>
+</table>
+<table x="456" y="1185" name="No Asociados">
+<row name="DNI_Cliente" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>DNI_Cliente</part>
+</key>
+</table>
+<table x="275" y="1019" name="Accionista">
+<row name="Código_Asociado" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Asociados" row="Código_Asociado" />
+</row>
+<row name="Código_Accionista" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>Código_Asociado</part>
+<part>Código_Accionista</part>
+</key>
+</table>
+<table x="277" y="1120" name="Por_Empresa">
+<row name="Código_Asociado" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Asociados" row="Código_Asociado" />
+</row>
+<key type="PRIMARY" name="">
+<part>Código_Asociado</part>
+</key>
+</table>
+<table x="596" y="783" name="Reserva">
+<row name="DNI_Cliente" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="Código_Habitacion" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Habitaciones" row="Código_Habitacion" />
+</row>
+<row name="Código_Reserva" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="F_Inicio" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default></row>
+<row name="F_Fin" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>DNI_Cliente</part>
+<part>Código_Habitacion</part>
+<part>Código_Reserva</part>
+</key>
+</table>
+<table x="384" y="943" name="R_Internet">
+<row name="Código_Reserva" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Reserva" row="Código_Reserva" />
+</row>
+<row name="Servidor" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>Código_Reserva</part>
+</key>
+</table>
+<table x="603" y="958" name="R_Personal">
+<row name="Código_Reserva" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Reserva" row="Código_Reserva" />
+</row>
+<key type="PRIMARY" name="">
+<part>Código_Reserva</part>
+</key>
+</table>
+<table x="95" y="555" name="Normal Simple">
+<row name="Código_Habitación" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Normal" row="Código_Habitación" />
+</row>
+<key type="PRIMARY" name="">
+<part>Código_Habitación</part>
+</key>
+</table>
+<table x="67" y="485" name="Normal_2_Estrellas">
+<row name="Código_Habitación" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Normal" row="Código_Habitación" />
+</row>
+<key type="PRIMARY" name="">
+<part>Código_Habitación</part>
+</key>
+</table>
+<table x="23" y="411" name="Normal_3_Estrellas">
+<row name="Código_Habitación" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>Código_Habitación</part>
+</key>
+</table>
+<table x="457" y="61" name="Area">
+<row name="Código_Área" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="Código_Hotel" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Hotel" row="Código_Hotel" />
+</row>
+<row name="Aforo" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>Código_Área</part>
+</key>
+</table>
+<table x="896" y="208" name="Piso">
+<row name="N_Piso" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="Código_Hotel" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Hotel" row="Código_Hotel" />
+</row>
+<key type="PRIMARY" name="">
+<part>N_Piso</part>
+</key>
+</table>
+<table x="220" y="31" name="Entretenimiento">
+<row name="Código_Área_Ent" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Area" row="Código_Área" />
+</row>
+<key type="PRIMARY" name="">
+<part>Código_Área_Ent</part>
+</key>
+</table>
+<table x="211" y="132" name="Piscinas">
+<row name="Código_Área" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Area" row="Código_Área" />
+</row>
+<row name="Profundidad" null="1" autoincrement="0">
+<datatype>DECIMAL</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>Código_Área</part>
+</key>
+</table>
+<table x="208" y="237" name="Patio_Comida">
+<row name="Código_Área" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Area" row="Código_Área" />
+</row>
+<row name="Tipo" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>Código_Área</part>
+</key>
+</table>
+<table x="17" y="0" name="Deportivo">
+<row name="Código_Área_Ent" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Entretenimiento" row="Código_Área_Ent" />
+</row>
+<row name="Disciplina" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>Código_Área_Ent</part>
+</key>
+</table>
+<table x="13" y="75" name="Virtual">
+<row name="Código_Área_Ent" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Entretenimiento" row="Código_Área_Ent" />
+</row>
+<row name="Género" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>Código_Área_Ent</part>
+</key>
+</table>
+<table x="1001" y="71" name="Contacto_Hotel">
+<row name="Teléfono_Hotel" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="Código_Hotel" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>Teléfono_Hotel</part>
+<part>Código_Hotel</part>
+</key>
+</table>
+<table x="642" y="231" name="HAB_SEC">
+<row name="Código_Sección" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Secciones" row="Código_Sección" />
+</row>
+<row name="Código_Habitacion" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Habitaciones" row="Código_Habitacion" />
+</row>
+<key type="PRIMARY" name="">
+<part>Código_Sección</part>
+<part>Código_Habitacion</part>
+</key>
+</table>
+<table x="50" y="893.5555419921875" name="Atención">
+<row name="Código_Habitación" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="Nombre_Servicio" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>Código_Habitación</part>
+<part>Nombre_Servicio</part>
+</key>
+</table>
+</sql>
